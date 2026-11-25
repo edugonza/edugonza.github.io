@@ -7,9 +7,13 @@ const blog = defineCollection({
   schema: ({ image }) => z.object({
     title: z.string(),
     description: z.string(),
-    // Cover image, relative to the post file. Shown in post lists and at the top of the post.
+    // Cover image, relative to the post file: the full original photo. The build crops it into the
+    // banner at the top of the post, the thumbnail in post lists and the social preview image.
     image: image().optional(),
     imageAlt: z.string().optional(),
+    // Which part of the image those crops keep: a side, or 'attention' / 'entropy' to let the
+    // image library pick the most interesting region.
+    imagePosition: z.enum(['center', 'top', 'bottom', 'left', 'right', 'attention', 'entropy']).default('center'),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),

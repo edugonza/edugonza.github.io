@@ -2,7 +2,7 @@
 import { render } from 'astro:content';
 import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { formatDate, getPosts, readingTime, slugifyTag, type Post } from '../../utils';
+import { CROPS, cropSize, formatDate, getPosts, readingTime, slugifyTag, type Post } from '../../utils';
 
 export async function getStaticPaths() {
   const posts = await getPosts();
@@ -19,8 +19,9 @@ interface Props {
 }
 
 const { post, newer, older } = Astro.props;
-const { title, description, pubDate, updatedDate, tags, image, imageAlt } = post.data;
+const { title, description, pubDate, updatedDate, tags, image, imageAlt, imagePosition } = post.data;
 const { Content } = await render(post);
+const banner = image && cropSize(image, CROPS.banner);
 ---
 
 <BaseLayout
@@ -30,6 +31,7 @@ const { Content } = await render(post);
   publishedTime={pubDate}
   image={image}
   imageAlt={imageAlt}
+  imagePosition={imagePosition}
 >
   <article class="narrow">
     <header>
@@ -64,12 +66,16 @@ const { Content } = await render(post);
     </header>
 
     {
-      image && (
+      image && banner && (
         <Image
           class="cover"
           src={image}
           alt={imageAlt ?? ''}
-          widths={[720, 1440]}
+          width={banner.width}
+          height={banner.height}
+          fit="cover"
+          position={imagePosition}
+          widths={[...new Set([Math.min(720, banner.width), banner.width])]}
           sizes="(max-width: 48rem) 100vw, 48rem"
           loading="eager"
         />

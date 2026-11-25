@@ -1,6 +1,6 @@
 ---
 import type { Post } from '../utils';
-import { formatDate } from '../utils';
+import { CROPS, cropSize, formatDate } from '../utils';
 import { Image } from 'astro:assets';
 
 interface Props {
@@ -25,6 +25,9 @@ const { posts } = Astro.props;
               class="thumb"
               src={post.data.image}
               alt={post.data.imageAlt ?? ''}
+              {...cropSize(post.data.image, CROPS.thumb)}
+              fit="cover"
+              position={post.data.imagePosition}
               widths={[192, 384]}
               sizes="192px"
               loading="lazy"
