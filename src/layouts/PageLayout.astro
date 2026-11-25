@@ -1,0 +1,51 @@
+---
+// Layout for simple Markdown pages (e.g. src/pages/about.md).
+// Set `avatar: true` in the frontmatter to show the profile photo beside the title.
+import BaseLayout from './BaseLayout.astro';
+import Avatar from '../components/Avatar.astro';
+
+interface Props {
+  frontmatter: { title: string; description?: string; avatar?: boolean };
+}
+const { title, description, avatar } = Astro.props.frontmatter;
+---
+
+<BaseLayout title={title} description={description}>
+  <article>
+    <header class:list={['page-head', avatar ? 'with-photo' : 'narrow']}>
+      <div class="titles narrow">
+        <h1>{title}</h1>
+        {description && <p class="lede">{description}</p>}
+      </div>
+      {avatar && <Avatar />}
+    </header>
+    <div class="prose narrow">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  /* Text stays in the narrow reading column; with a photo, the header spans the full width
+     so the photo lines up with the right edge, as on the home page. */
+  .with-photo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  .with-photo .titles {
+    min-width: 0;
+  }
+  .with-photo .lede {
+    margin-bottom: 0;
+  }
+  @media (max-width: 40rem) {
+    .with-photo {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+  }
+</style>

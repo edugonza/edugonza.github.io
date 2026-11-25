@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Icon from '../components/Icon.astro';
+import Avatar from '../components/Avatar.astro';
+import { SITE, SOCIALS } from '../consts';
+import { getPosts, getProjects } from '../utils';
+
+const posts = (await getPosts()).slice(0, 5);
+const projects = (await getProjects()).filter((p) => p.data.featured).slice(0, 4);
+---
+
+<BaseLayout>
+  <section class="hero">
+    <p class="hello">Hi, I'm</p>
+    <h1>{SITE.author}</h1>
+    <p class="lede">{SITE.tagline}</p>
+    <div class="cta">
+      <a href="/about" class="button">More about me <Icon name="arrow" size={16} /></a>
+      <ul class="socials">
+        {
+          SOCIALS.map((s) => (
+            <li>
+              <a href={s.href} aria-label={s.label} title={s.label}>
+                <Icon name={s.icon} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="photo"><Avatar /></div>
+  </section>
+
+  {
+    posts.length > 0 && (
+      <section>
+        <h2 class="section-title">
+          Latest writing <a href="/blog">All posts →</a>
+        </h2>
+        <PostList posts={posts} />
+      </section>
+    )
+  }
+
+  {
+    projects.length > 0 && (
+      <section>
+        <h2 class="section-title">
+          Selected projects <a href="/projects">All projects →</a>
+        </h2>
+        <div class="grid">
+          {projects.map((project) => <ProjectCard project={project} />)}
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  /* Text in the left column, photo in the right; stacks with the photo on top on narrow screens. */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 3rem;
+    padding-block: 2rem 1rem;
+  }
+  .hero > :not(.photo) {
+    grid-column: 1;
+    max-width: var(--width);
+  }
+  .photo {
+    grid-column: 2;
+    grid-row: 1 / span 4;
+    align-self: center;
+  }
+  @media (max-width: 40rem) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .photo {
+      grid-column: 1;
+      grid-row: 1;
+      margin-bottom: 1.25rem;
+    }
+  }
+  .hello {
+    margin: 0;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+  }
+  h1 {
+    font-size: clamp(2.5rem, 6vw + 1rem, 4rem);
+    letter-spacing: -0.03em;
+  }
+  .lede {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+  }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    background: var(--text);
+    color: var(--bg);
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .button:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    gap: 1rem;
+  }
+</style>

@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getProjects } from '../utils';
+
+const projects = await getProjects();
+---
+
+<BaseLayout title="Projects" description="Things I've built, maintain or tinker with.">
+  <h1>Projects</h1>
+  <p class="lede">Things I've built, maintain or tinker with.</p>
+  <div class="grid">
+    {projects.map((project) => <ProjectCard project={project} showBody />)}
+  </div>
+</BaseLayout>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    gap: 1rem;
+  }
+</style>

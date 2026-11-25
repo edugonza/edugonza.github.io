@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Not found">
+  <div class="narrow">
+    <p class="code">404</p>
+    <h1>This page doesn't exist.</h1>
+    <p class="lede">It may have moved, or never been here. <a href="/">Go home →</a></p>
+  </div>
+</BaseLayout>
+
+<style>
+  .code {
+    margin: 0;
+    color: var(--accent);
+    font-family: var(--font-mono);
+  }
+</style>

@@ -1,2 +1,18 @@
-/public/
-.hugo_build.lock
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+
+# environment
+.env
+.env.*
+
+# editors / OS
+.idea/
+.vscode/
+.DS_Store

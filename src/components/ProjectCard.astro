@@ -1,0 +1,114 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+import Icon from './Icon.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  showBody?: boolean;
+}
+const { project, showBody = false } = Astro.props;
+const { title, description, tags, repo, url, status } = project.data;
+const { Content } = await render(project);
+---
+
+<article class="card" id={project.id}>
+  <header>
+    <h3>{title}</h3>
+    {status !== 'active' && <span class="status">{status}</span>}
+  </header>
+  <p class="desc">{description}</p>
+  {
+    showBody && project.body?.trim() && (
+      <div class="body prose">
+        <Content />
+      </div>
+    )
+  }
+  <footer>
+    <div class="tags">
+      {tags.map((t) => <span class="tag">{t}</span>)}
+    </div>
+    <div class="links">
+      {
+        repo && (
+          <a href={repo} aria-label={`${title} source code`} title="Source">
+            <Icon name="github" />
+          </a>
+        )
+      }
+      {
+        url && (
+          <a href={url} aria-label={`${title} website`} title="Website">
+            <Icon name="external" />
+          </a>
+        )
+      }
+    </div>
+  </footer>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.4rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .card:hover {
+    border-color: var(--accent);
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  h3 {
+    margin: 0;
+    font-size: 1.15rem;
+  }
+  .status {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+  .desc {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.97rem;
+  }
+  .body {
+    font-size: 0.97rem;
+  }
+  .body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+  footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .links {
+    display: flex;
+    gap: 0.6rem;
+  }
+  .links a {
+    color: var(--text-muted);
+  }
+  .links a:hover {
+    color: var(--accent);
+  }
+</style>

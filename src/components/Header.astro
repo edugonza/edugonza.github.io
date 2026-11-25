@@ -1,0 +1,100 @@
+---
+import { NAV, SITE } from '../consts';
+import { logoMarkup } from '../logo';
+import ThemeToggle from './ThemeToggle.astro';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(href + '/'));
+---
+
+<header class="site-header">
+  <div class="container inner">
+    <a href="/" class="brand" aria-label={`${SITE.title}, home`}>
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true" set:html={logoMarkup()} />
+      <span class="name">edu.loves.ml</span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        {
+          NAV.filter((item) => item.href !== '/').map((item) => (
+            <li>
+              <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <ThemeToggle />
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: saturate(180%) blur(10px);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    border-bottom: 1px solid var(--border);
+  }
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: 4rem;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-weight: 600;
+  }
+  .mark {
+    display: block;
+    flex: none;
+    width: 2rem;
+    height: 2rem;
+    color: var(--accent);
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  ul {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  nav a {
+    display: block;
+    padding: 0.4rem 0.7rem;
+    border-radius: 0.4rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  nav a:hover {
+    color: var(--text);
+    background: var(--surface);
+  }
+  nav a[aria-current='page'] {
+    color: var(--accent);
+  }
+  @media (max-width: 34rem) {
+    .name {
+      display: none;
+    }
+    nav a {
+      padding: 0.4rem 0.5rem;
+    }
+  }
+</style>

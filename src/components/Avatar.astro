@@ -1,0 +1,25 @@
+---
+// Profile photo shared by the home and About pages; style it here so both stay in sync.
+// Pages only decide where it goes, by wrapping it in their own element.
+import { SITE } from '../consts';
+---
+
+<img class="avatar" src={SITE.avatar} alt={`Photo of ${SITE.author}`} width="176" height="176" />
+
+<style>
+  .avatar {
+    display: block;
+    width: 11rem;
+    height: 11rem;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--surface);
+    box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent);
+  }
+  @media (max-width: 40rem) {
+    .avatar {
+      width: 7rem;
+      height: 7rem;
+    }
+  }
+</style>

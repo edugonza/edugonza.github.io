@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { getPosts, slugifyTag } from '../../utils';
+
+const posts = await getPosts();
+const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+---
+
+<BaseLayout title="Blog" description="Notes and technical writing.">
+  <div class="narrow">
+    <h1>Blog</h1>
+    <p class="lede">Notes and technical writing. Also available via <a href="/rss.xml">RSS</a>.</p>
+    {
+      tags.length > 0 && (
+        <p class="tags">
+          {tags.map((t) => (
+            <a class="tag" href={`/tags/${slugifyTag(t)}/`}>
+              #{t}
+            </a>
+          ))}
+        </p>
+      )
+    }
+    {posts.length > 0 ? <PostList posts={posts} /> : <p>No posts yet.</p>}
+  </div>
+</BaseLayout>
+
+<style>
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: -1rem 0 2rem;
+  }
+</style>
