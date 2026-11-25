@@ -26,7 +26,6 @@ export function readingTime(body: string | undefined): string {
 export const CROPS = {
   banner: { ratio: 1440 / 460, width: 1440 }, // top of the post
   thumb: { ratio: 8 / 5, width: 384 }, // post lists, matches the 8rem × 5rem box
-  social: { ratio: 1200 / 630, width: 1200 }, // og:image
 } as const;
 
 /** Largest size of the given crop that fits inside the image without upscaling it. */

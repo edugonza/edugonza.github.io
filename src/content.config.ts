@@ -8,7 +8,7 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     // Cover image, relative to the post file: the full original photo. The build crops it into the
-    // banner at the top of the post, the thumbnail in post lists and the social preview image.
+    // banner at the top of the post and the thumbnail in post lists.
     image: image().optional(),
     imageAlt: z.string().optional(),
     // Which part of the image those crops keep: a side, or 'attention' / 'entropy' to let the

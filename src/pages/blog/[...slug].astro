@@ -29,9 +29,7 @@ const banner = image && cropSize(image, CROPS.banner);
   description={description}
   type="article"
   publishedTime={pubDate}
-  image={image}
-  imageAlt={imageAlt}
-  imagePosition={imagePosition}
+  ogImage={`/og/${post.id}.jpg`}
 >
   <article class="narrow">
     <header>

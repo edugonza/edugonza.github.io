@@ -5,6 +5,8 @@ export const SITE = {
   // Used as the default <meta name="description"> and in the RSS feed.
   description: 'Personal site of Eduardo Gonzalez Lopez de Murillas, machine learning engineer: projects, notes and technical writing on computer science, ML and AI agents.',
   author: 'Eduardo Gonzalez Lopez de Murillas',
+  // Shown under the name on the default social preview card (src/og.ts). Keep it short.
+  role: 'Machine Learning Engineer',
   // Short tagline shown under the name on the home page.
   tagline: "Machine learning engineer at Xebia, full stack developer and former researcher with a PhD in process mining. I'm curious about how things work, and I'm happiest when I'm building them. Here I write about what I learn along the way.",
   locale: 'en',
