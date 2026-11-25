@@ -22,7 +22,7 @@ const projects = (await getProjects()).filter((p) => p.data.featured).slice(0, 4
         {
           SOCIALS.map((s) => (
             <li>
-              <a href={s.href} aria-label={s.label} title={s.label}>
+              <a href={s.href} aria-label={s.label} title={s.label} rel={s.href.startsWith('http') ? 'me' : undefined}>
                 <Icon name={s.icon} />
               </a>
             </li>
