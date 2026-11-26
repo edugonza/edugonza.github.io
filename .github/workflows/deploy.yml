@@ -17,6 +17,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PUBLIC_CF_BEACON_TOKEN: ${{ vars.PUBLIC_CF_BEACON_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4

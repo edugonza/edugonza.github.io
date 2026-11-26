@@ -8,12 +8,16 @@ import '../styles/global.css';
 
 type Props = ComponentProps<typeof BaseHead>;
 const props = Astro.props;
+const cfToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
 ---
 
 <!doctype html>
 <html lang={SITE.locale}>
   <head>
     <BaseHead {...props} />
+    <!-- Cloudflare Web Analytics -->
+    <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon={JSON.stringify({ token: cfToken })}/>
+    <!-- End Cloudflare Web Analytics -->
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
